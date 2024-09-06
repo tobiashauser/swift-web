@@ -1,11 +1,9 @@
-// swift-tools-version:5.0
+// swift-tools-version:5.5
 import PackageDescription
 
 let package = Package(
   name: "Web",
-  platforms: [
-    .macOS(.v10_13),
-  ],
+	platforms: [.macOS(.v10_15),],
   products: [
     .library(name: "ApplicativeRouter", targets: ["ApplicativeRouter"]),
     .library(name: "ApplicativeRouterHttpPipelineSupport",
@@ -31,43 +29,48 @@ let package = Package(
     .package(url: "https://github.com/IBM-Swift/BlueCryptor.git", .exact("1.0.32")),
   ],
   targets: [
-    .target(name: "ApplicativeRouter", dependencies: ["Either", "Optics", "Prelude", "UrlFormEncoding"]),
-    .testTarget(name: "ApplicativeRouterTests", dependencies: ["ApplicativeRouter", "Optics", "SnapshotTesting", "HttpPipelineTestSupport"]),
+    .target(name: "ApplicativeRouter", dependencies: [.product(name: "Either", package: "swift-prelude"), .product(name: "Optics", package: "swift-prelude"), .product(name: "Prelude", package: "swift-prelude"), "UrlFormEncoding"]),
+    .testTarget(name: "ApplicativeRouterTests", dependencies: ["ApplicativeRouter", .product(name: "Optics", package: "swift-prelude"), .product(name: "SnapshotTesting", package: "swift-snapshot-testing"), "HttpPipelineTestSupport"]),
 
     .target(name: "ApplicativeRouterHttpPipelineSupport",
-            dependencies: ["ApplicativeRouter", "HttpPipeline", "Prelude"]),
+						dependencies: ["ApplicativeRouter", "HttpPipeline", .product(name: "Prelude", package: "swift-prelude")]),
     .testTarget(name: "ApplicativeRouterHttpPipelineSupportTests",
-                dependencies: ["ApplicativeRouterHttpPipelineSupport", "HttpPipelineTestSupport", "SnapshotTesting"]),
+                dependencies: ["ApplicativeRouterHttpPipelineSupport", "HttpPipelineTestSupport", .product(name: "SnapshotTesting", package: "swift-snapshot-testing")]),
 
-    .target(name: "Css", dependencies: ["Either", "Prelude"]),
+    .target(name: "Css", dependencies: [.product(name: "Either", package: "swift-prelude"), .product(name: "Prelude", package: "swift-prelude")]),
     .testTarget(name: "CssTests", dependencies: ["Css", "CssTestSupport"]),
 
     .target(name: "CssReset", dependencies: ["Css"]),
     .testTarget(name: "CssResetTests", dependencies: ["CssReset", "CssTestSupport"]),
 
-    .target(name: "CssTestSupport", dependencies: ["Css", "SnapshotTesting"]),
+    .target(name: "CssTestSupport", dependencies: ["Css", .product(name: "SnapshotTesting", package: "swift-snapshot-testing")]),
 
-    .target(name: "HtmlCssSupport", dependencies: ["Css", "Html"]),
-    .testTarget(name: "HtmlCssSupportTests", dependencies: ["HtmlCssSupport", "CssTestSupport", "HtmlSnapshotTesting"]),
+    .target(name: "HtmlCssSupport", dependencies: ["Css", .product(name: "Html", package: "swift-html")]),
+    .testTarget(name: "HtmlCssSupportTests", dependencies: ["HtmlCssSupport", "CssTestSupport", .product(name: "HtmlSnapshotTesting", package: "swift-html")]),
 
-    .target(name: "HtmlPlainTextPrint", dependencies: ["Html", "Prelude"]),
-    .testTarget(name: "HtmlPlainTextPrintTests", dependencies: ["HtmlPlainTextPrint", "Css", "Html", "HtmlCssSupport", "SnapshotTesting"]),
+    .target(name: "HtmlPlainTextPrint", dependencies: [.product(name: "Html", package: "swift-html"), .product(name: "Prelude", package: "swift-prelude")]),
+    .testTarget(name: "HtmlPlainTextPrintTests", dependencies: ["HtmlPlainTextPrint", "Css", .product(name: "Html", package: "swift-html"), "HtmlCssSupport", .product(name: "SnapshotTesting", package: "swift-snapshot-testing")]),
 
     .target(name: "HttpPipeline",
-            dependencies: ["Cryptor", "Html", "NIO", "NIOHTTP1", "NIOHTTPCompression", "Prelude", "Optics"]),
+            dependencies: [.product(name: "Cryptor", package: "BlueCryptor"), .product(name: "Html", package: "swift-html"), .product(name: "NIO", package: "swift-nio"), .product(name: "NIOHTTP1", package: "swift-nio"), .product(name: "NIOHTTPCompression", package: "swift-nio"), .product(name: "Prelude", package: "swift-prelude"), .product(name: "Optics", package: "swift-prelude")]),
 //    .target(name: "HttpPipelineExample",
 //            dependencies: ["HttpPipeline", "HttpPipelineHtmlSupport"]),
     .testTarget(name: "HttpPipelineTests",
-                dependencies: ["HttpPipeline", "SnapshotTesting", "HttpPipelineTestSupport"]),
+                dependencies: ["HttpPipeline", .product(name: "SnapshotTesting", package: "swift-snapshot-testing"), "HttpPipelineTestSupport"]),
 
-    .target(name: "HttpPipelineHtmlSupport", dependencies: ["Html", "HttpPipeline", "View"]),
-    .testTarget(name: "HttpPipelineHtmlSupportTests", dependencies: ["HttpPipelineHtmlSupport", "SnapshotTesting"]),
+    .target(name: "HttpPipelineHtmlSupport", dependencies: [.product(name: "Html", package: "swift-html"), "HttpPipeline", "View"]),
+    .testTarget(name: "HttpPipelineHtmlSupportTests", dependencies: ["HttpPipelineHtmlSupport", .product(name: "SnapshotTesting", package: "swift-snapshot-testing")]),
 
-    .target(name: "HttpPipelineTestSupport", dependencies: ["HttpPipeline", "Html", "SnapshotTesting"]),
+    .target(name: "HttpPipelineTestSupport", dependencies: ["HttpPipeline", .product(name: "Html", package: "swift-html"), .product(name: "SnapshotTesting", package: "swift-snapshot-testing")]),
 
-    .target(name: "UrlFormEncoding", dependencies: ["Prelude", "Optics"]),
-    .testTarget(name: "UrlFormEncodingTests", dependencies: ["UrlFormEncoding", "SnapshotTesting"]),
-
-    .target(name: "View", dependencies: ["Html", "Prelude"]),
+    .target(name: "UrlFormEncoding", dependencies: [.product(name: "Prelude", package: "swift-prelude"), .product(name: "Optics", package: "swift-prelude")]),
+    .testTarget(name: "UrlFormEncodingTests", dependencies: ["UrlFormEncoding", .product(name: "SnapshotTesting", package: "swift-snapshot-testing")]),
+		
+			.target(
+					name: "View",
+									dependencies: [
+									.product(name: "Html", package: "swift-html"),
+										.product(name: "Prelude", package: "swift-prelude")
+							]),
   ]
 )
