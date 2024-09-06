@@ -52,7 +52,7 @@ let package = Package(
     .testTarget(name: "HtmlPlainTextPrintTests", dependencies: ["HtmlPlainTextPrint", "Css", .product(name: "Html", package: "swift-html"), "HtmlCssSupport", .product(name: "SnapshotTesting", package: "swift-snapshot-testing")]),
 
     .target(name: "HttpPipeline",
-            dependencies: [.product(name: "Cryptor", package: "BlueCryptor"), .product(name: "Html", package: "swift-html"), .product(name: "NIO", package: "swift-nio"), .product(name: "NIOHTTP1", package: "swift-nio"), .product(name: "NIOHTTPCompression", package: "swift-nio"), .product(name: "Prelude", package: "swift-prelude"), .product(name: "Optics", package: "swift-prelude")]),
+            dependencies: [.product(name: "Cryptor", package: "BlueCryptor"), .product(name: "Html", package: "swift-html"), .product(name: "NIO", package: "swift-nio"), .product(name: "NIOHTTP1", package: "swift-nio"), .product(name: "Prelude", package: "swift-prelude"), .product(name: "Optics", package: "swift-prelude")]),
 //    .target(name: "HttpPipelineExample",
 //            dependencies: ["HttpPipeline", "HttpPipelineHtmlSupport"]),
     .testTarget(name: "HttpPipelineTests",
